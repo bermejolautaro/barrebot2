@@ -1,12 +1,13 @@
-import { Router } from 'aurelia-router';
+import { Router, RouterEvent, NavigationInstruction } from 'aurelia-router';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { View, autoinject, ComponentCreated } from 'aurelia-framework';
 import { markovIt, markovIt2, MarkovItResult } from './barrebot-model';
-import { View, autoinject } from 'aurelia-framework';
 import { generateNGrams, NGramContainer } from 'barrebot-model';
 import Hashids from 'hashids';
 import { tweets } from 'tweets';
 
 @autoinject()
-export class Barrebot {
+export class Barrebot implements ComponentCreated {
   public message: MarkovItResult = { sentence: 'Default Text', sources: [], randomNumbersUsed: [] };
   private beginnings: string[] = [];
   private ngrams: Record<string, NGramContainer> | undefined;
@@ -16,12 +17,17 @@ export class Barrebot {
   private readonly hashids = new Hashids('barrebot');
   private readonly router: Router;
 
-  public constructor(router: Router) {
+  public constructor(router: Router, ea: EventAggregator) {
     this.router = router;
-  }
 
-  public activate({ id }: { id: string }): void {
-    this.sentenceId = id;
+    ea.subscribe(RouterEvent.Complete, ({ instruction }: { instruction: NavigationInstruction }) => {
+      this.sentenceId = instruction.queryParams?.id;
+
+      if (this.sentenceId) {
+        const numbers = this.hashids.decode(this.sentenceId).map(x => +x.toString());
+        this.generateSentence(numbers);
+      }
+    })
   }
 
   public created(_owningView: View, _myView: View): void {
