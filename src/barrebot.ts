@@ -49,7 +49,7 @@ export class Barrebot {
     }
 
     const id = this.hashids.encode(this.message.randomNumbersUsed);
-    this.router.navigate(`./${id}`);
+    this.router.navigateToRoute('barrebot', { id });
   }
 
   private generateSeed(): number[] {

@@ -8,7 +8,7 @@ export class App {
     config.options.root = '/barrebot2';
     config.options.pushState = true;
     config.map([
-      { route: ':id?', name: 'barrebot', moduleId: PLATFORM.moduleName('barrebot') },
+      { route: '', name: 'barrebot', moduleId: PLATFORM.moduleName('barrebot')},
     ]);
   }
 }
