@@ -5,7 +5,7 @@ export class App {
 
   configureRouter(config: RouterConfiguration, _router: Router) {
     config.title = 'Barrebot';
-    config.options.root = '/';
+    config.options.root = '/barrebot2';
     config.options.pushState = true;
     config.map([
       { route: ':id?', name: 'barrebot', moduleId: PLATFORM.moduleName('barrebot') },
