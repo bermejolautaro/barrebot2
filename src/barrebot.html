@@ -1,0 +1,10 @@
+<template>
+  <button click.delegate="generateSentence()">Generate</button>
+  <h4>${message.sentence}</h4>
+  <br>
+  <br>
+  <p repeat.for="source of message.sources">
+    <span>${source.texto} - <a href="https://twitter.com/AgusBarreto97/status/${source.id}">Go to tweet</a></span>
+  </p>
+
+</template>
