@@ -13,7 +13,7 @@ export class Barrebot implements ComponentCreated {
   private ngrams: Record<string, NGramContainer> | undefined;
   private sentenceId: string | undefined;
   private readonly maxIterations: number = 1000;
-  private readonly order: number = 8;
+  private readonly order: number = 10;
   private readonly hashids = new Hashids('barrebot');
   private readonly router: Router;
 
@@ -31,9 +31,12 @@ export class Barrebot implements ComponentCreated {
   }
 
   public created(_owningView: View, _myView: View): void {
-    const [beginnings, ngrams] = generateNGrams(tweets, this.order);
+    const [beginnings, ngrams] = generateNGrams(tweets.map(x => ({ id: x.id, texto: x.texto.toLowerCase()})), this.order);
     this.beginnings = beginnings;
     this.ngrams = ngrams;
+
+    console.log(beginnings);
+    console.log(ngrams);
 
     if (this.sentenceId) {
       const numbers = this.hashids.decode(this.sentenceId).map(x => +x.toString());

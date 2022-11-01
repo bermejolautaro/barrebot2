@@ -13,10 +13,12 @@ const ensureArray = (config) => config && (Array.isArray(config) ? config : [con
 const when = (condition, config, negativeConfig) =>
   condition ? ensureArray(config) : ensureArray(negativeConfig);
 
+const urlPerEnv = (isProduction) => isProduction ? '/barrebot2' : '/';
+
 // primary config:
 const outDir = path.resolve(__dirname, project.platform.output);
 const srcDir = path.resolve(__dirname, 'src');
-const baseUrl = '/barrebot2';
+const baseUrl = '/';
 
 const cssRules = [
   {
@@ -51,7 +53,7 @@ module.exports = ({ production }, { analyze, hmr, port, host }) => ({
   mode: production ? 'production' : 'development',
   output: {
     path: outDir,
-    publicPath: baseUrl,
+    publicPath: urlPerEnv(production),
     filename: production ? '[name].[chunkhash].bundle.js' : '[name].[fullhash].bundle.js',
     chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[fullhash].chunk.js'
   },
@@ -230,7 +232,7 @@ module.exports = ({ production }, { analyze, hmr, port, host }) => ({
       template: 'index.ejs',
       metadata: {
         // available in index.ejs //
-        baseUrl
+        baseUrl: urlPerEnv(production)
       }
     }),
     // ref: https://webpack.js.org/plugins/mini-css-extract-plugin/

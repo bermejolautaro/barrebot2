@@ -1,5 +1,3 @@
-import { SocketAddress } from "net";
-
 export interface NGramContainer {
   ngrams: string[];
   sourceText: string;

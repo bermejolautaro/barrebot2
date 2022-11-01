@@ -1,6 +1,11 @@
 <template>
+  <require from="./capitalize"></require>
+  <require from="./barrebot.css"></require>
+  <div style="padding-bottom: 2em">
+    <a href="playground">Go to playground</a>
+  </div>
   <button click.delegate="generateSentence()">Generate</button>
-  <h4>${message.sentence}</h4>
+  <h4>${message.sentence | capitalize}</h4>
   <br>
   <br>
   <p repeat.for="source of message.sources">
